@@ -58,36 +58,7 @@ print-warehouse/
 
 ## GitHub
 
-Репозиторий: _(будет добавлен после создания)_
-
-### Что нужно для GitHub
-
-1. Аккаунт на [github.com](https://github.com)
-2. **GitHub CLI** (`gh`) или создание репозитория через веб-интерфейс
-3. Аутентификация — один из вариантов:
-   - `gh auth login` (рекомендуется)
-   - SSH-ключ (`~/.ssh/id_ed25519.pub`) добавлен в GitHub → Settings → SSH keys
-   - Personal Access Token для HTTPS
-
-### Создание репозитория
-
-```bash
-# Установка GitHub CLI (Ubuntu)
-sudo apt install gh
-
-# Авторизация
-gh auth login
-
-# Создание private-репозитория и push
-gh repo create print-warehouse --private --source=. --remote=origin --push
-```
-
-Или вручную на github.com → New repository → затем:
-
-```bash
-git remote add origin git@github.com:YOUR_USERNAME/print-warehouse.git
-git push -u origin main
-```
+Репозиторий: https://github.com/Enot3color/WMS
 
 ## Лицензия
 
