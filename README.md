@@ -33,6 +33,56 @@ npm run dev
 - Frontend: http://localhost:5173
 - MinIO Console: http://localhost:9001 (minioadmin / minioadmin)
 
+### Первый вход
+
+После `npm run prisma:seed --prefix backend`:
+
+| | |
+|---|---|
+| Email | `admin@example.com` |
+| Логин | `admin` |
+| Телефон | `+79000000000` |
+| Пароль | `admin12345` |
+| Роль | ADMIN (руководитель) |
+
+Вход возможен по **email**, **логину** или **телефону**.
+
+## Production (Keenetic / домен)
+
+**Не публикуйте `npm run dev` в интернет** — Vite dev-сервер отдаёт сотни модулей и HMR-скрипты.
+
+### Docker (рекомендуется)
+
+```bash
+# JWT и домен (через запятую, если несколько)
+export JWT_SECRET="your-secret"
+export CORS_ORIGIN="https://wms.enot3color.keenetic.name"
+export WEB_PORT=8080
+
+docker compose -f docker-compose.prod.yml up -d --build
+cd backend && npm run prisma:migrate && npm run prisma:seed
+```
+
+Nginx раздаёт собранный frontend и проксирует `/api` → backend.  
+На роутере пробросьте порт **8080** (или 443 через свой SSL) на машину с Docker.
+
+### Ручной деплой (nginx на хосте)
+
+```bash
+cd frontend && npm run build   # VITE_API_URL=/api уже в .env.production
+# dist/ → /var/www/wms
+# nginx: try_files + proxy /api → localhost:3000
+```
+
+### Частые проблемы
+
+| Симптом | Причина | Решение |
+|---|---|---|
+| Страница login перезагружается | Dev-сервер Vite + битый token в localStorage | Production build + nginx |
+| Много скриптов на login | Открыт `npm run dev` снаружи | `npm run build` + статика |
+| Login не работает | API указывает на `localhost:3000` | `VITE_API_URL=/api` + nginx proxy |
+| CORS error | Backend не знает домен | `CORS_ORIGIN=https://ваш-домен` |
+
 ## Структура
 
 ```
@@ -47,6 +97,7 @@ print-warehouse/
 
 ## MVP (из ТЗ)
 
+- [x] Auth: JWT, роли (кладовщик / менеджер / руководитель)
 - [ ] Номенклатура и карточка материала
 - [ ] Журнал движений (приход, выдача, списание, возврат)
 - [ ] Заявки менеджеров + workflow + резервы
