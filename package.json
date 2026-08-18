@@ -1,0 +1,17 @@
+{
+  "name": "print-warehouse",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Складской учёт типографии — веб-система вместо Google-таблиц",
+  "scripts": {
+    "dev:infra": "docker compose up -d",
+    "dev:backend": "npm run start:dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "build": "npm run build --prefix backend && npm run build --prefix frontend",
+    "prisma:generate": "npm run prisma:generate --prefix backend",
+    "prisma:migrate": "npm run prisma:migrate --prefix backend"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
